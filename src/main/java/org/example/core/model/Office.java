@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Office implements GenericEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false)
     private UUID uuid;
     private String name;
     @Enumerated(EnumType.STRING)
