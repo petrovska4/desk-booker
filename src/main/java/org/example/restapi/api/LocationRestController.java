@@ -16,8 +16,6 @@ public class LocationRestController {
         this.locationService = locationService;
     }
 
-
-
 //    @GetMapping
 //    public List<LocationDto> findAll() {
 //        return locationService.findAll();

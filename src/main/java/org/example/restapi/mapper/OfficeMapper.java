@@ -3,6 +3,7 @@ package org.example.restapi.mapper;
 import org.example.core.model.Location;
 import org.example.core.model.Office;
 import org.example.restapi.dto.OfficeDto;
+import org.example.restapi.dto.create.OfficeCreateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -28,11 +29,14 @@ public interface OfficeMapper {
         return office;
     }
 
-//    @Mapping(source = "location.uuid", target = "locationId")
+//    @Mapping(source = "location.uuid", target = "location")
     OfficeDto toOfficeDto(Office office);
 
 //    @Mapping(source = "locationUuid", target = "location")
     Office toOffice(OfficeDto dto);
+
+    @Mapping(source = "locationId", target = "location")
+    Office toOffice(OfficeCreateDto dto);
 
     default Location map(UUID locationUuid) {
         if (locationUuid == null) return null;

@@ -3,8 +3,10 @@ package org.example.core.service;
 import org.example.core.model.Office;
 import org.example.core.repository.OfficeRepository;
 import org.example.restapi.dto.OfficeDto;
+import org.example.restapi.dto.create.OfficeCreateDto;
 import org.example.restapi.dto.update.OfficeUpdateDto;
 import org.example.restapi.mapper.OfficeMapper;
+import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,15 @@ public class OfficeService extends GenericService<Office, OfficeDto, OfficeUpdat
     public OfficeDto getOfficeById(UUID uuid) {
         Office office = findById(uuid);
         return officeMapper.toOfficeDto(office);
+    }
+
+    public OfficeDto createOffice(OfficeCreateDto officeCreateDto) {
+        Preconditions.checkArgument(officeCreateDto.getLocationId() != null, "You need to send location id");
+
+        Office office = officeMapper.toOffice(officeCreateDto);
+
+        Office created = create(office);
+
+        return officeMapper.toOfficeDto(created);
     }
 }
