@@ -22,10 +22,10 @@ public class DeskRestController {
         return deskService.getDeskById(UUID.fromString(id));
     }
 
-//    @GetMapping("/get-all")
-//    public List<DeskDto> getAll() {
-//        return deskService.getAllDesks();
-//    }
+    @GetMapping("/get-all")
+    public List<DeskDto> getAll() {
+        return deskService.getAllDesks();
+    }
 
     @PostMapping("/create")
     public DeskDto create(@RequestBody DeskCreateDto deskDto) {

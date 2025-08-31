@@ -6,6 +6,7 @@ import org.example.restapi.dto.create.LocationCreateDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/location")
@@ -16,10 +17,15 @@ public class LocationRestController {
         this.locationService = locationService;
     }
 
-//    @GetMapping
-//    public List<LocationDto> findAll() {
-//        return locationService.findAll();
-//    }
+    @GetMapping("/get-by-id")
+    public LocationDto getById(@RequestParam String id) {
+        return locationService.getLocationById(UUID.fromString(id));
+    }
+
+    @GetMapping("/get-all")
+    public List<LocationDto> findAll() {
+        return locationService.getAllLocations();
+    }
 
     @PostMapping("/create")
     public LocationDto createLocation(@RequestBody LocationCreateDto locationCreateDto) {

@@ -4,21 +4,16 @@ import org.example.core.model.Location;
 import org.example.core.model.Office;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
+import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = {CommonMapper.class})
+@Mapper(componentModel = "spring", uses = {CommonMapper.class, LocationMapper.class})
 public interface OfficeMapper {
-//    OfficeMapper INSTANCE = Mappers.getMapper(OfficeMapper.class);
-
-//    @Named("toOffice")
-//    @Mapping(source = "id", target = "uuid", qualifiedByName = "mapIdToUuid")
-//    @Mapping(source = "location", target = "location", qualifiedByName = "toLocation")
-//    Office toOffice(string officeDto);
 
     @Named("toOfficeFromId")
     default Office toOfficeFromId(String officeId) {
@@ -29,10 +24,12 @@ public interface OfficeMapper {
         return office;
     }
 
-//    @Mapping(source = "location.uuid", target = "location")
+    @Named("toOfficeDto")
+    @Mapping(source = "location", target = "location", qualifiedByName = "toLocationDto")
+    @Mapping(source = "uuid", target = "id", qualifiedByName = "mapUuidToId")
     OfficeDto toOfficeDto(Office office);
 
-//    @Mapping(source = "locationUuid", target = "location")
+    @Mapping(source = "id", target = "uuid", qualifiedByName = "mapIdToUuid")
     Office toOffice(OfficeDto dto);
 
     @Mapping(source = "locationId", target = "location")
@@ -48,4 +45,7 @@ public interface OfficeMapper {
     default UUID map(Location location) {
         return location != null ? location.getUuid() : null;
     }
+
+    @IterableMapping(qualifiedByName = "toOfficeDto")
+    List<OfficeDto> toOfficeDtos(List<Office> offices);
 }

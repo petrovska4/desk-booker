@@ -10,6 +10,7 @@ import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,10 @@ public class OfficeService extends GenericService<Office, OfficeDto, OfficeUpdat
     public OfficeDto getOfficeById(UUID uuid) {
         Office office = findById(uuid);
         return officeMapper.toOfficeDto(office);
+    }
+
+    public List<OfficeDto> getAllOffices() {
+        return officeMapper.toOfficeDtos(findAll());
     }
 
     public OfficeDto createOffice(OfficeCreateDto officeCreateDto) {

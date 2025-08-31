@@ -8,11 +8,11 @@ import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.create.DeskCreateDto;
 import org.example.restapi.dto.update.DeskUpdateDto;
 import org.example.restapi.mapper.DeskMapper;
-import org.example.restapi.mapper.OfficeMapper;
 import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,6 +31,10 @@ public class DeskService extends GenericService<Desk, DeskDto, DeskUpdateDto> {
 
     public DeskDto getDeskById(UUID uuid) {
         return deskMapper.toDeskDto(findById(uuid));
+    }
+
+    public List<DeskDto> getAllDesks() {
+        return deskMapper.toDeskDtos(findAll());
     }
 
     public DeskDto createDesk(DeskCreateDto deskCreateDto) {
