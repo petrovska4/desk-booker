@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DeskService extends GenericService<Desk, DeskDto, DeskUpdateDto> {
+public class DeskService extends GenericService<Desk, DeskDto> {
     private final DeskMapper deskMapper;
     DeskRepository deskRepository;
     OfficeRepository officeRepository;
@@ -49,5 +49,20 @@ public class DeskService extends GenericService<Desk, DeskDto, DeskUpdateDto> {
         Desk created = create(desk);
 
         return deskMapper.toDeskDto(created);
+    }
+
+    public DeskDto updateDesk(UUID uuid, DeskUpdateDto deskUpdateDto) {
+        Desk existingDesk = findById(uuid);
+        Preconditions.checkArgument(existingDesk != null, "Desk does not exist");
+
+        deskMapper.updateDeskFromDto(deskUpdateDto, existingDesk);
+
+        update(existingDesk);
+
+        return deskMapper.toDeskDto(existingDesk);
+    }
+
+    public void deleteDesk(UUID uuid) {
+        delete(uuid);
     }
 }

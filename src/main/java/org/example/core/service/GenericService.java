@@ -9,7 +9,7 @@ import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;
 import java.util.List;
 import java.util.UUID;
 
-public class GenericService<T extends GenericEntity, D extends GenericDto, U extends GenericUpdateDto> {
+public class GenericService<T extends GenericEntity, D extends GenericDto> {
     private final GenericRepository<T> repository;
 
     public GenericService(GenericRepository<T> repository) {
@@ -29,5 +29,19 @@ public class GenericService<T extends GenericEntity, D extends GenericDto, U ext
 
     public T create(T entity) {
         return repository.save(entity);
+    }
+
+    public T update(T entity) {
+        Preconditions.checkArgument(entity.getUuid() != null, "You need to send id");
+
+        repository.save(entity);
+
+        return entity;
+    }
+
+    public void delete(UUID uuid) {
+        Preconditions.checkArgument(uuid != null, "You need to send id");
+
+        repository.deleteById(uuid);
     }
 }

@@ -3,10 +3,8 @@ package org.example.restapi.mapper;
 import org.example.core.model.Desk;
 import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.create.DeskCreateDto;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Named;
-import org.mapstruct.Mapping;
+import org.example.restapi.dto.update.DeskUpdateDto;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -22,7 +20,12 @@ public interface DeskMapper {
     @Mapping(source = "officeId", target = "office", qualifiedByName = "toOfficeFromId")
     Desk toDesk(DeskCreateDto deskCreateDto);
 
+    @Mapping(source = "officeId", target = "office", qualifiedByName = "toOfficeFromId")
+    Desk toDesk(DeskUpdateDto deskUpdateDto);
+
     @IterableMapping(qualifiedByName = "toDeskDto")
     List<DeskDto> toDeskDtos(List<Desk> desks);
+
+    void updateDeskFromDto(DeskUpdateDto dto, @MappingTarget Desk entity);
 
 }

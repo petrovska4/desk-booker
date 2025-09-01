@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class DeskUpdateDto implements GenericUpdateDto {
-    private String id;
+public class DeskUpdateDto {
+//    private String id;
     private int position;
     private String officeId;
 }

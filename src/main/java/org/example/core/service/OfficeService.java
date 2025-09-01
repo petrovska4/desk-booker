@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class OfficeService extends GenericService<Office, OfficeDto, OfficeUpdateDto> {
+public class OfficeService extends GenericService<Office, OfficeDto> {
     private OfficeMapper officeMapper;
 
     @Autowired
