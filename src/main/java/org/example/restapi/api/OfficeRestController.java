@@ -1,8 +1,11 @@
 package org.example.restapi.api;
 
 import org.example.core.service.OfficeService;
+import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
+import org.example.restapi.dto.update.DeskUpdateDto;
+import org.example.restapi.dto.update.OfficeUpdateDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,5 +33,15 @@ public class OfficeRestController {
     @PostMapping("/create")
     public OfficeDto create(@RequestBody OfficeCreateDto officeCreateDto) {
         return officeService.createOffice(officeCreateDto);
+    }
+
+    @PutMapping("/update")
+    public OfficeDto update(@RequestParam String id, @RequestBody OfficeUpdateDto officeUpdateDto) {
+        return officeService.updateOffice(UUID.fromString(id), officeUpdateDto);
+    }
+
+    @DeleteMapping("/delete")
+    public void delete(@RequestParam String id) {
+        officeService.deleteOffice(UUID.fromString(id));
     }
 }

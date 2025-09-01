@@ -4,10 +4,8 @@ import org.example.core.model.Location;
 import org.example.core.model.Office;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.example.restapi.dto.update.OfficeUpdateDto;
+import org.mapstruct.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -48,4 +46,6 @@ public interface OfficeMapper {
 
     @IterableMapping(qualifiedByName = "toOfficeDto")
     List<OfficeDto> toOfficeDtos(List<Office> offices);
+
+    void updateOfficeFromDto(OfficeUpdateDto officeUpdateDto, @MappingTarget Office office);
 }

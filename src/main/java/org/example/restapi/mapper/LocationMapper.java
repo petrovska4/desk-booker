@@ -3,10 +3,8 @@ package org.example.restapi.mapper;
 import org.example.core.model.Location;
 import org.example.restapi.dto.LocationDto;
 import org.example.restapi.dto.create.LocationCreateDto;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.example.restapi.dto.update.LocationUpdateDto;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,4 +24,6 @@ public interface LocationMapper {
 
     @IterableMapping(qualifiedByName = "toLocationDto")
     List<LocationDto> toLocationDtos(List<Location> location);
+
+    void updateLocationFromDto(LocationUpdateDto locationUpdateDto, @MappingTarget Location location);
 }
