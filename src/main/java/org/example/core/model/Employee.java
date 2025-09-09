@@ -1,11 +1,12 @@
 package org.example.core.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.core.model.enumeration.EmployeePositionEnum;
+import org.example.core.model.enumeration.RoleEnum;
 
-import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -21,15 +22,11 @@ public class Employee implements GenericEntity {
     private String firstName;
     private String lastName;
     private String email;
+    @Column(nullable = false)
+    private String passwordHash;
     @Enumerated(EnumType.STRING)
     private EmployeePositionEnum position;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.JOIN)
-//    @JoinTable(
-//            name = "employee_team",
-//            joinColumns = @JoinColumn(name = "employee_uuid"),
-//            inverseJoinColumns = @JoinColumn(name = "team_uuid")
-//    )
-//    private List<Team> teams = new ArrayList<>();
 }

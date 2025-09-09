@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
+import jakarta.persistence.ElementCollection;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Set;
@@ -15,7 +15,6 @@ import java.util.Set;
 @Data
 public class ReservationDto implements GenericDto {
     private String id;
-//    @NonUpdatableField
     private Duration usage;
     private LocalDate startDate;
     private LocalDate endDate;
