@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.example.core.model.enumeration.OfficeTypeEnum;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +27,6 @@ public class Office implements GenericEntity {
     @ManyToOne
     @JoinColumn(name = "location_uuid", nullable = false)
     private Location location;
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Desk> desks;
 }

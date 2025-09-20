@@ -7,6 +7,4 @@ import java.util.UUID;
 
 @Service
 public interface DeskRepository extends GenericRepository<Desk> {
-    Desk findByOfficeUuidAndPosition(UUID officeUuid, int position);
-    Boolean existsByOfficeUuidAndPosition(UUID officeUuid, int position);
 }

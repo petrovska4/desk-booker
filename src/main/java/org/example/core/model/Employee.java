@@ -27,6 +27,6 @@ public class Employee implements GenericEntity {
     @Enumerated(EnumType.STRING)
     private EmployeePositionEnum position;
     @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private RoleEnum role = RoleEnum.EMPLOYEE;
 
 }

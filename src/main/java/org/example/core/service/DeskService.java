@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DeskService extends GenericService<Desk, DeskDto> {
@@ -34,7 +35,10 @@ public class DeskService extends GenericService<Desk, DeskDto> {
     }
 
     public List<DeskDto> getAllDesks() {
-        return deskMapper.toDeskDtos(findAll());
+        List<Desk> desks = deskRepository.findAll();
+        return desks.stream()
+                .map(deskMapper::toDeskDto)
+                .collect(Collectors.toList());
     }
 
     public DeskDto createDesk(DeskCreateDto deskCreateDto) {

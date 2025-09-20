@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.core.model.enumeration.DateStatusEnum;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -20,8 +21,8 @@ public class Reservation implements GenericEntity {
     @Column(updatable = false, nullable = false)
     private UUID uuid;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
     @JoinColumn(name = "desk_uuid",nullable = false)

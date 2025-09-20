@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.example.core.model.enumeration.LocationStatusEnum;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,4 +24,6 @@ public class Location implements GenericEntity{
     private String address;
     @Enumerated(EnumType.STRING)
     private LocationStatusEnum status;
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Office> offices;
 }
