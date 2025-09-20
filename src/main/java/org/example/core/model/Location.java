@@ -1,18 +1,19 @@
 package org.example.core.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.core.model.enumeration.LocationStatusEnum;
 
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"offices"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Table(name = "locations")
 public class Location implements GenericEntity{
@@ -25,5 +26,5 @@ public class Location implements GenericEntity{
     @Enumerated(EnumType.STRING)
     private LocationStatusEnum status;
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Office> offices;
+    private Set<Office> offices;
 }

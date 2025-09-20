@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 import org.example.core.model.enumeration.DeskStatus;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +31,9 @@ public class Desk implements GenericEntity {
     @Enumerated(EnumType.STRING)
     private DeskStatus status;
 
-    private String features;
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    @Column(name = "features", columnDefinition = "text[]")
+    private String[] features;
 
     @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;

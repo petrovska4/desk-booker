@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.core.model.enumeration.OfficeTypeEnum;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -13,4 +15,5 @@ public class OfficeDto implements GenericDto {
     private String name;
     private OfficeTypeEnum type;
     private LocationDto location;
+    private Set<DeskDto> desks;
 }

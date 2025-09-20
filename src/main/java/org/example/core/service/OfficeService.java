@@ -19,11 +19,13 @@ import java.util.UUID;
 @Service
 public class OfficeService extends GenericService<Office, OfficeDto> {
     private OfficeMapper officeMapper;
+    private OfficeRepository officeRepository;
 
     @Autowired
     public OfficeService(OfficeRepository officeRepository,  OfficeMapper officeMapper) {
         super(officeRepository);
         this.officeMapper = officeMapper;
+        this.officeRepository = officeRepository;
     }
 
     public OfficeDto getOfficeById(UUID uuid) {
@@ -33,6 +35,10 @@ public class OfficeService extends GenericService<Office, OfficeDto> {
 
     public List<OfficeDto> getAllOffices() {
         return officeMapper.toOfficeDtos(findAll());
+    }
+
+    public List<Office> getAllOfficesWithDesks() {
+        return officeRepository.findAllWithDesks();
     }
 
     public OfficeDto createOffice(OfficeCreateDto officeCreateDto) {

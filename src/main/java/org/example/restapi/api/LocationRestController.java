@@ -28,6 +28,11 @@ public class LocationRestController {
         return locationService.getAllLocations();
     }
 
+    @GetMapping("/get-all-with-offices-and-desks")
+    public List<LocationDto> findAllWithOfficesAndDesks() {
+        return locationService.getLocationsWithOfficesAndDesks();
+    }
+
     @PostMapping("/create")
     public LocationDto createLocation(@RequestBody LocationCreateDto locationCreateDto) {
         return locationService.createLocation(locationCreateDto);

@@ -1,18 +1,19 @@
 package org.example.core.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.core.model.enumeration.OfficeTypeEnum;
 
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"desks", "location"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Table(name = "offices")
 public class Office implements GenericEntity {
@@ -28,5 +29,5 @@ public class Office implements GenericEntity {
     @JoinColumn(name = "location_uuid", nullable = false)
     private Location location;
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Desk> desks;
+    private Set<Desk> desks;
 }
