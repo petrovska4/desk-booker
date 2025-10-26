@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/desk")
+@CrossOrigin(origins = "http://localhost:5173")
 public class DeskRestController {
     private final DeskService deskService;
 
@@ -28,7 +29,7 @@ public class DeskRestController {
         return deskService.getAllDesks();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public DeskDto create(@RequestBody DeskCreateDto deskDto) {
         return deskService.createDesk(deskDto);
     }

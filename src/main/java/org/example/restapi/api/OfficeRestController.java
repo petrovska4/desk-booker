@@ -1,10 +1,8 @@
 package org.example.restapi.api;
 
 import org.example.core.service.OfficeService;
-import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
-import org.example.restapi.dto.update.DeskUpdateDto;
 import org.example.restapi.dto.update.OfficeUpdateDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +28,7 @@ public class OfficeRestController {
         return officeService.getAllOffices();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public OfficeDto create(@RequestBody OfficeCreateDto officeCreateDto) {
         return officeService.createOffice(officeCreateDto);
     }

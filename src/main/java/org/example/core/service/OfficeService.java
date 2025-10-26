@@ -1,12 +1,9 @@
 package org.example.core.service;
 
-import org.example.core.model.Desk;
 import org.example.core.model.Office;
 import org.example.core.repository.OfficeRepository;
-import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
-import org.example.restapi.dto.update.DeskUpdateDto;
 import org.example.restapi.dto.update.OfficeUpdateDto;
 import org.example.restapi.mapper.OfficeMapper;
 import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;

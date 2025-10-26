@@ -1,6 +1,7 @@
 package org.example.restapi.api;
 
 import org.example.core.model.Employee;
+import org.example.core.model.enumeration.RoleEnum;
 import org.example.core.security.JwtUtil;
 import org.example.core.security.LoginDto;
 import org.example.core.service.EmployeeService;
@@ -44,7 +45,7 @@ public class AuthController {
         employee.setEmail(dto.getEmail());
         employee.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         employee.setPosition(dto.getPosition());
-        employee.setRole(dto.getRole());
+        employee.setRole(RoleEnum.EMPLOYEE);
 
         employeeService.create(employee);
 

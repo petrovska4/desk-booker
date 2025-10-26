@@ -13,7 +13,6 @@ import java.util.List;
 public class DeskCreateDto {
     private String label;
     private List<String> features;
-    private DeskStatus status;
+    private DeskStatus status = DeskStatus.UNAVAILABLE;
     private String officeId;
-
 }

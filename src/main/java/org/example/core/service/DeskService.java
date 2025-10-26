@@ -2,6 +2,7 @@ package org.example.core.service;
 
 import org.example.core.model.Desk;
 import org.example.core.model.Office;
+import org.example.core.model.enumeration.DeskStatus;
 import org.example.core.repository.DeskRepository;
 import org.example.core.repository.OfficeRepository;
 import org.example.restapi.dto.DeskDto;
@@ -50,6 +51,7 @@ public class DeskService extends GenericService<Desk, DeskDto> {
 
         Desk desk = deskMapper.toDesk(deskCreateDto);
         desk.setOffice(office);
+        desk.setStatus(DeskStatus.AVAILABLE);
         Desk created = create(desk);
 
         return deskMapper.toDeskDto(created);

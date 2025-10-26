@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/location")
 public class LocationRestController {
@@ -30,10 +31,10 @@ public class LocationRestController {
 
     @GetMapping("/get-all-with-offices-and-desks")
     public List<LocationDto> findAllWithOfficesAndDesks() {
-        return locationService.getLocationsWithOfficesAndDesks();
+        return locationService.getLocationsWithOfficesAndDesks(null, null);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public LocationDto createLocation(@RequestBody LocationCreateDto locationCreateDto) {
         return locationService.createLocation(locationCreateDto);
     }

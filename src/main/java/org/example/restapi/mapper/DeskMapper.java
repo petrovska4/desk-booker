@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-@Mapper(componentModel = "spring", uses = {OfficeMapper.class}, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", uses = {OfficeMapper.class, CommonMapper.class}, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DeskMapper {
 
     @Mapping(source = "uuid", target = "id")
@@ -27,6 +27,11 @@ public interface DeskMapper {
     Desk toDesk(DeskUpdateDto deskUpdateDto);
 
     List<DeskDto> toDeskDtos(List<Desk> desks);
+
+    @Named("toDeskDtoShallow")
+    @Mapping(source = "uuid", target = "id", qualifiedByName = "mapUuidToId")
+    @Mapping(target = "office", ignore = true)
+    DeskDto toDeskDtoShallow(Desk desk);
 
     void updateDeskFromDto(DeskUpdateDto dto, @MappingTarget Desk entity);
 

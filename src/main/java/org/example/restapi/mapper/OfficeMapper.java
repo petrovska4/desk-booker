@@ -1,7 +1,9 @@
 package org.example.restapi.mapper;
 
+import org.example.core.model.Desk;
 import org.example.core.model.Location;
 import org.example.core.model.Office;
+import org.example.restapi.dto.DeskDto;
 import org.example.restapi.dto.OfficeDto;
 import org.example.restapi.dto.create.OfficeCreateDto;
 import org.example.restapi.dto.update.OfficeUpdateDto;
@@ -10,6 +12,7 @@ import org.mapstruct.*;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {CommonMapper.class, LocationMapper.class}, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
@@ -48,12 +51,12 @@ public interface OfficeMapper {
     @Mapping(target = "desks", ignore = true)
     OfficeDto toOfficeDtoShallow(Office office);
 
-    default OfficeDto toOfficeDtoWithDesks(Office office, DeskMapper deskMapper) {
+    default OfficeDto toOfficeDtoWithDesks(Office office, Function<Desk, DeskDto> deskMapperFn) {
         OfficeDto dto = toOfficeDtoShallow(office);
         if (office.getDesks() != null) {
             dto.setDesks(
                     office.getDesks().stream()
-                            .map(deskMapper::toDeskDto)
+                            .map(deskMapperFn)
                             .collect(Collectors.toSet())
             );
         }
