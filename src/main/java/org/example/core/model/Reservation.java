@@ -31,28 +31,4 @@ public class Reservation implements GenericEntity {
     @ManyToOne
     @JoinColumn(name = "employee_uuid",nullable = false)
     private Employee employee;
-
-    @CollectionTable(name = "reservation_occupancy_dates", joinColumns = @JoinColumn(name = "reservation_uuid"))
-    @ElementCollection
-    @MapKeyColumn(name = "occupancy_date")
-    private Set<LocalDate> occupancyDates = new HashSet<>();
-
-    @ElementCollection
-    @CollectionTable(name = "daily_status", joinColumns = @JoinColumn(name = "reservation_id"))
-    @MapKeyColumn(name = "date")
-    @Column(name = "status")
-    private Map<LocalDate, DateStatusEnum> dailyStatus = new HashMap<>();
-
-    public void addOccupancyDate(LocalDate occupancyDate) {
-        this.occupancyDates.add(occupancyDate);
-    }
-
-    public void addDateAvailable (LocalDate date) {
-        this.dailyStatus.put(date, DateStatusEnum.AVAILABLE);
-    }
-
-    public void addDateUnavailable (LocalDate date) {
-        this.dailyStatus.put(date, DateStatusEnum.UNAVAILABLE);
-    }
-
 }

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,11 +52,12 @@ public class LocationService extends GenericService<Location, LocationDto> {
     }
 
     public List<LocationDto> getLocationsWithOfficesAndDesks(@Nullable LocalDateTime from, @Nullable LocalDateTime to) {
-        LocalDateTime searchFrom = (from != null) ? from : LocalDateTime.now();
-        LocalDateTime searchTo = (to != null) ? to : LocalDateTime.now().plusYears(10);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfToday = now.toLocalDate().atStartOfDay();
+        LocalDateTime endOfToday = startOfToday.plusDays(1).minusNanos(1);
 
         var locations = locationRepository.findAll();
-        var offices   = officeService.getAllOfficesWithDesks();
+        var offices = officeService.getAllOfficesWithDesks();
 
         Map<UUID, Set<Office>> officesByLocation = offices.stream()
                 .collect(Collectors.groupingBy(
@@ -68,15 +70,17 @@ public class LocationService extends GenericService<Location, LocationDto> {
                 .map(Desk::getUuid)
                 .toList();
 
-        Set<UUID> busy = new HashSet<>(reservationRepository.busyDeskIds(searchFrom, searchTo));
+        Set<UUID> busyToday = new HashSet<>(reservationRepository.busyDeskIds(startOfToday, endOfToday));
 
-        Map<UUID, Reservation> nextByDesk = reservationRepository.nextReservations(allDeskIds, LocalDateTime.now())
+        Map<UUID, Reservation> nextByDesk = reservationRepository.nextReservations(allDeskIds, now)
                 .stream()
                 .collect(Collectors.toMap(
                         r -> r.getDesk().getUuid(),
                         r -> r,
                         (a, b) -> a
                 ));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
         return locations.stream().map(location -> {
             var locationDto = locationMapper.toLocationDtoShallow(location);
@@ -90,20 +94,29 @@ public class LocationService extends GenericService<Location, LocationDto> {
                         if (desk.getStatus() == DeskStatus.UNAVAILABLE) {
                             dto.setStatus(DeskStatus.UNAVAILABLE);
                             dto.setNext("Unavailable for maintenance");
+                            return dto;
                         }
-                        else if (busy.contains(desk.getUuid())) {
+
+                        if (busyToday.contains(desk.getUuid())) {
                             dto.setStatus(DeskStatus.RESERVED);
-                            var next = nextByDesk.get(desk.getUuid());
-                            dto.setNext(next != null
-                                    ? "Reserved %s–%s by %s".formatted(
-                                    next.getStartDate(),
-                                    next.getEndDate(),
-                                    next.getEmployee() != null ? next.getEmployee().getUuid() : "Unknown"
-                            )
-                                    : "Currently reserved");
+                            dto.setNext("Currently reserved");
+                            return dto;
                         }
-                        else {
-                            dto.setStatus(DeskStatus.AVAILABLE);
+
+                        dto.setStatus(DeskStatus.AVAILABLE);
+                        var next = nextByDesk.get(desk.getUuid());
+
+                        if (next != null) {
+                            String employeeName = next.getEmployee() != null
+                                    ? next.getEmployee().getFirstName() + " " + next.getEmployee().getLastName()
+                                    : "Unknown";
+
+                            dto.setNext("Next: %s–%s by %s".formatted(
+                                    next.getStartDate().format(formatter),
+                                    next.getEndDate().format(formatter),
+                                    employeeName
+                            ));
+                        } else {
                             dto.setNext("Free all day");
                         }
 
@@ -115,8 +128,6 @@ public class LocationService extends GenericService<Location, LocationDto> {
             return locationDto;
         }).toList();
     }
-
-
 
     public LocationDto createLocation(LocationCreateDto locationCreateDto) {
         return locationMapper.toLocationDto(create(locationMapper.toLocation(locationCreateDto)));

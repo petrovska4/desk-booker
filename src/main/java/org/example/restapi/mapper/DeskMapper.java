@@ -19,6 +19,12 @@ public interface DeskMapper {
     @Mapping(target = "office", ignore = true)
     DeskDto toDeskDto(Desk desk);
 
+    @Named("toDeskDtoWithOfficeDto")
+    @Mapping(source = "uuid", target = "id")
+    @Mapping(target = "next", expression = "java(getNextReservation(desk))")
+    @Mapping(source = "office", target = "office", qualifiedByName = "toOfficeDtoShallow")
+    DeskDto toDeskDtoWithOfficeDto(Desk desk);
+
     @Mapping(target = "uuid", ignore = true)
     @Mapping(source = "officeId", target = "office", qualifiedByName = "toOfficeFromId")
     Desk toDesk(DeskCreateDto deskCreateDto);

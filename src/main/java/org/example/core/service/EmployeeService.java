@@ -23,13 +23,12 @@ public class EmployeeService extends GenericService<Employee, EmployeeDto> imple
     }
 
     public Employee findByEmail(String email) {
-        return employeeRepository.findByEmail(email).orElse(null);
+        return employeeRepository.findByEmail(email);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee employee = employeeRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        Employee employee = employeeRepository.findByEmail(username);
 
         return User.builder()
                 .username(employee.getEmail())
